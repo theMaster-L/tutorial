@@ -15,12 +15,12 @@ n5 = -2.7490843
 
 def temperature_from_pressure(P_MPa):
     """
-    主函数：根据Wagner方程，从压力(MPa)迭代求解饱和温度(K)
+    主函数:根据Wagner方程,从压力(MPa)迭代求解饱和温度(K)
     """
     # 目标函数：找到T，使得 Wagner(T) - P = 0
     objective = lambda T: _wagner_pressure_from_temp(T) - P_MPa
     
-    # 提供一个合理的初始猜测值，使用简化的Antoine方程估算
+    # 提供一个合理的初始猜测值，使用简化的Antoine方程估算   
     T_guess_K = 1301.679 / (6.81228 - np.log10(P_MPa * 10)) - 3.494 + 273.15
     
     # 使用fsolve求解
