@@ -2,14 +2,29 @@ import numpy as np
 from scipy.optimize import fsolve
 
 # --- CO2 Wagner 方程参数 ---
-T_c = 304.1282  # 临界温度
-P_c = 7.3773    # 临界压力
+T_c = 304.1282  # 临界温度 (K)
+P_c = 7.3773    # 临界压力 (MPa)
 
 n1 = -7.0602087
 n2 = 1.9391218
 n3 = -1.6412611
 n4 = 3.8966446
 n5 = -2.7490843
+
+def _wagner_pressure_from_temp(T):
+    """
+    Wagner方程: 根据温度T(K)计算压力P(MPa)
+    """
+    # 计算对比温度
+    tau = 1 - T / T_c
+    
+    # Wagner方程计算对比压力的对数
+    ln_Pr = (tau * (n1 + n2 * tau**1.5 + n3 * tau**2 + n4 * tau**4 + n5 * tau**7))
+    
+    # 计算压力 (MPa)
+    P_MPa = P_c * np.exp(ln_Pr)
+    
+    return P_MPa
 
 # --- 核心计算函数 ---
 
